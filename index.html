@@ -7,7 +7,8 @@
 	<title>QuickNotes.ai</title>
 
 	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
 
 	<!-- Marked.js for markdown parsing -->
 	<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -143,8 +144,15 @@
 		}
 
 		@keyframes loader1-animation {
-			0%, 100% { opacity: 0; }
-			50% { opacity: 1; }
+
+			0%,
+			100% {
+				opacity: 0;
+			}
+
+			50% {
+				opacity: 1;
+			}
 		}
 
 		.shadow17 {
@@ -228,53 +236,71 @@
 		</div>
 
 		<div class="box">
-			<button class="btn btn1 btn-outline-secondary mt-2" id="copyBtn" onclick="copyResponse()" data-toggle="tooltip" data-placement="right" title="Copy to Clipboard">&#128203;</button>
+			<button class="btn btn1 btn-outline-secondary mt-2" id="copyBtn" onclick="copyResponse()"
+				data-toggle="tooltip" data-placement="right" title="Copy to Clipboard">&#128203;</button>
 		</div>
 	</div>
 
 	<script>
-    async function sendMessage() {
-      const input = document.getElementById('userInput').value;
-      const responseDiv = document.getElementById('response');
-      let load = document.querySelector('.lo');
-      let dot1 = document.querySelector('.dot1');
-      let dot2 = document.querySelector('.dot2');
-      let dot3 = document.querySelector('.dot3');
-      let dot4 = document.querySelector('.dot4');
+		async function sendMessage() {
+			const cors = require('cors');
+			const input = document.getElementById('userInput').value;
+			const responseDiv = document.getElementById('response');
+			const btn = document.querySelector('.button35');
+			let load = document.querySelector('.lo');
+			let dot1 = document.querySelector('.dot1');
+			let dot2 = document.querySelector('.dot2');
+			let dot3 = document.querySelector('.dot3');
+			let dot4 = document.querySelector('.dot4');
 
-      if (!input) {
-        responseDiv.innerHTML = 'Please enter a message.';
-        return;
-      }
 
-      load.innerText = 'Generating';
-      dot1.innerText = '.';
-      dot2.innerText = '.';
-      dot3.innerText = '.';
-      dot4.innerText = '.';
+			if (!input) {
+				responseDiv.innerHTML = 'Please enter a message.';
+				return;
+			} else if (responseDiv.innerHTML == marked.parse(markdownText)) {
+				if (!input) {
+					return;
+				} else {
+					input = '';
+					load.innerText = 'Generating';
+					dot1.innerText = '.';
+					dot2.innerText = '.';
+					dot3.innerText = '.';
+					dot4.innerText = '.';
+				}
+			}
+			else {
+				input = '';
+				load.innerText = 'Generating';
+				dot1.innerText = '.';
+				dot2.innerText = '.';
+				dot3.innerText = '.';
+				dot4.innerText = '.';
+			}
 
-      try {
-        const response = await fetch('https://quicknotes-backend-nine.vercel.app/api/chat', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            model: 'deepseek/deepseek-r1:free',
-            messages: [{
-              role: 'user',
-              content: `Act like an experienced teacher and explain the topic ${input} in a clear, simple, and detailed way, as if you're teaching it to a beginner. Break down complex terms, give examples, and include small questions to check understanding. Format the explanation like well-organized notes that I can use for studying.`
-            }]
-          })
-        });
 
-        const data = await response.json();
-        const markdownText = data.choices?.[0]?.message?.content || 'No response received.';
-        responseDiv.innerHTML = marked.parse(markdownText);
-      } catch (error) {
-        responseDiv.innerHTML = 'Error: ' + error.message;
-      }
-    }
+			try {
+				const response = await fetch('https://quicknotes-backend-nine.vercel.app/api/chat', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						model: 'deepseek/deepseek-r1:free',
+						messages: [{
+							role: 'user',
+							content: `Act like an experienced teacher and explain the topic ${input} in a clear, simple, and detailed way, as if you're teaching it to a beginner. Break down complex terms, give examples, and include small questions to check understanding. Format the explanation like well-organized notes that I can use for studying.`
+						}]
+					})
+				});
+
+				const data = await response.json();
+				const markdownText = data.choices?.[0]?.message?.content || 'No response received.';
+				responseDiv.innerHTML = marked.parse(markdownText);
+			} catch (error) {
+				responseDiv.innerHTML = 'Error: ' + error.message;
+			}
+		}
 		function copyResponse() {
 			const responseText = document.getElementById('response').innerText;
 			if (!responseText) {
