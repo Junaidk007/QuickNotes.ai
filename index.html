@@ -257,19 +257,7 @@
 			if (!input) {
 				responseDiv.innerHTML = 'Please enter a message.';
 				return;
-			} else if (responseDiv.innerHTML == marked.parse(markdownText)) {
-				if (!input) {
-					return;
-				} else {
-					input = '';
-					load.innerText = 'Generating';
-					dot1.innerText = '.';
-					dot2.innerText = '.';
-					dot3.innerText = '.';
-					dot4.innerText = '.';
-				}
-			}
-			else {
+			}else {
 				input = '';
 				load.innerText = 'Generating';
 				dot1.innerText = '.';
