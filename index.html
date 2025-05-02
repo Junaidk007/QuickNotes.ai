@@ -42,7 +42,8 @@
 		}
 
 		.form-group {
-			width: 100%;
+			/* width: 100%; */
+			/* flex: 1; */
 			align-items: center;
 			font-size: 18px;
 			padding: 10px;
@@ -92,7 +93,7 @@
 		}
 
 		.input2 {
-			width: 75%;
+			/* width: 75%; */
 			font-size: 16px;
 			color: rgb(0, 0, 0);
 			background-color: #f5f5f5;
@@ -116,6 +117,7 @@
 			width: 100%;
 			max-width: 600px;
 			position: relative;
+			/* background-color: #333; */
 		}
 
 		.loader1 {
@@ -160,7 +162,7 @@
 		}
 
 		.shadow-snippets {
-			justify-content: center;
+			/* justify-content: center; */
 			align-items: center;
 			min-height: 735px;
 			display: flex;
@@ -185,6 +187,24 @@
 			padding: 0 15px;
 		}
 
+		body {
+			background-color: rgb(243, 248, 253);
+		}
+
+		.top-text {
+			/* background-color: #2b2bff; */
+			width: 100%;
+		}
+
+		.mainbox {
+			width: 102%;
+			flex: 1;
+			min-height: 700px;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+		}
+
 		@media screen and (max-width: 500px) {
 			.button35 {
 				width: 25%;
@@ -202,14 +222,45 @@
 			}
 
 			.input2 {
+				flex: 1;
 				height: 50px;
 			}
 
 			.form-group {
 				justify-content: center;
 				display: flex;
-				width: 110%;
+				width: 100%;
 			}
+
+			.top-text h2 {
+				font-size: 1.5rem;
+			}
+		}
+
+		@keyframes text12-animation {
+			0% {
+				background-position: 200% 0;
+			}
+
+			100% {
+				background-position: 0% 0;
+			}
+		}
+
+		.text12 {
+			background: linear-gradient(to right,
+					black 0%,
+					black 40%,
+					rgb(0, 85, 255) 45%,
+					black 55%,
+					black 100%);
+			background-size: 200% auto;
+			background-repeat: repeat;
+			background-clip: text;
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			animation-fill-mode: forwards;
+			animation: text12-animation 3s linear infinite;
 		}
 	</style>
 
@@ -218,27 +269,36 @@
 <body>
 	<br>
 	<div class=" shadow17 shadow-snippets">
-		<h2 style="text-align: center; margin-top: 35px;">Generate Notes For Free</h2><br>
 
-		<div class="form-group input-wrapper">
-			<div class="input-with-button">
-				<input class="input2" id="userInput" type="text" placeholder="Enter your question">
-				<button class="button35 input-btn" onclick="sendMessage()">Generate</button>
+		<span class="top-text">
+			<h2 style="text-align: start;"><b class="text12">QuickNotes.ai</b></h2>
+		</span>
+
+		<div class="mainbox">
+			<h2 style="text-align: center; margin-top: 15px;">Generate Notes For Free</h2><br>
+
+			<div class="form-group input-wrapper">
+				<div class="input-with-button">
+					<input class="input2" id="userInput" type="text" placeholder="Enter your question">
+					<button class="button35 input-btn" onclick="sendMessage()">Generate</button>
+				</div>
+			</div>
+			<div id="response" class="loader1">
+				<span class="lo"></span>
+				<span class="dot dot1"></span>
+				<span class="dot dot2"></span>
+				<span class="dot dot3"></span>
+				<span class="dot dot4"></span>
+			</div>
+
+			<div class="box">
+				<button class="btn btn1 btn-outline-secondary mt-2" id="copyBtn" onclick="copyResponse()"
+					data-toggle="tooltip" data-placement="right" title="Copy to Clipboard">&#128203;</button>
 			</div>
 		</div>
 
-		<div id="response" class="loader1">
-			<span class="lo"></span>
-			<span class="dot dot1"></span>
-			<span class="dot dot2"></span>
-			<span class="dot dot3"></span>
-			<span class="dot dot4"></span>
-		</div>
 
-		<div class="box">
-			<button class="btn btn1 btn-outline-secondary mt-2" id="copyBtn" onclick="copyResponse()"
-				data-toggle="tooltip" data-placement="right" title="Copy to Clipboard">&#128203;</button>
-		</div>
+
 	</div>
 
 	<script>
