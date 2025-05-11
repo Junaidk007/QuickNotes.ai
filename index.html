@@ -22,7 +22,19 @@
 	<style>
 		#response {
 			margin-top: 20px;
-			padding: 10px;
+			overflow-y: scroll;
+			/* Scroll works */
+
+			/* Hide scrollbar */
+			scrollbar-width: none;
+			/* Firefox */
+			-ms-overflow-style: none;
+			/* Internet Explorer 10+ */
+		}
+
+		#response::-webkit-scrollbar {
+			display: none;
+			/* Chrome, Safari */
 		}
 
 		#response h3 {
@@ -47,6 +59,8 @@
 			align-items: center;
 			font-size: 18px;
 			padding: 10px;
+			position: fixed;
+			top: 85%;
 		}
 
 		.btn1 {
@@ -100,8 +114,8 @@
 			border: none;
 			transition: 0.4s;
 			flex: 1;
-			border-radius: 25px;
-			height: 50px;
+			border-radius: 32px;
+			height: 70px;
 			padding-left: 15px;
 			padding-right: 100px;
 		}
@@ -114,7 +128,7 @@
 		.input-with-button {
 			display: flex;
 			width: 100%;
-			max-width: 600px;
+			max-width: 750px;
 			position: relative;
 			/* background-color: #333; */
 		}
@@ -123,7 +137,14 @@
 			color: #3838ff;
 			font-size: 24px;
 			font-weight: bold;
-			width: 100%;
+			width: 80%;
+			max-height: 15cm;
+			margin-top: 0px !important;
+		}
+
+		.main-h2 {
+			width: 80%;
+			font-size: 2.5rem;
 		}
 
 		.loader1 .dot {
@@ -142,6 +163,10 @@
 
 		.loader1 .dot3 {
 			animation-delay: 0.7s;
+		}
+
+		.loader1 .dot4 {
+			animation-delay: 0.8s;
 		}
 
 		@keyframes loader1-animation {
@@ -163,7 +188,7 @@
 		.shadow-snippets {
 			/* justify-content: center; */
 			align-items: center;
-			min-height: 700px;
+			height: 750px;
 			display: flex;
 			align-self: center;
 			flex-direction: column;
@@ -180,9 +205,9 @@
 
 		.input-btn {
 			position: absolute;
-			right: 5px;
-			top: 5px;
-			height: 40px;
+			right: 15px;
+			top: 12.5px;
+			height: 45px;
 			border-radius: 20px;
 			padding: 0 15px;
 		}
@@ -198,12 +223,31 @@
 		.mainbox {
 			width: 102%;
 			flex: 1;
-			min-height: 650px;
+			height: 650px;
 			display: flex;
 			flex-direction: column;
-			justify-content: center;
+			/* justify-content: center; */
 			align-items: center;
 			/* background-color: #2b2bff; */
+		}
+
+		.mainbox2 {
+			width: 100%;
+			flex: 1;
+			max-width: 850px;
+			height: 600px;
+			display: flex;
+			flex-direction: column;
+			/* justify-content: center; */
+			align-items: center;
+			/* background-color: #2b2bff; */
+		}
+
+		.loading {
+			display: flex;
+			flex-direction: row;
+			align-items: flex-end;
+			height: 550px;
 		}
 
 		@media screen and (max-width: 500px) {
@@ -215,28 +259,36 @@
 
 			.shadow-snippets {
 				margin: -10px 7.5px 0 7.5px;
-				min-height: 675px;
+				height: 900px;
 			}
 
 			.loader1 {
 				font-size: small;
+				max-height: 750px;
 			}
 
 			.input2 {
 				flex: 1;
-				height: 50px;
 			}
 
 			.form-group {
 				justify-content: center;
 				display: flex;
-				width: fit-content;
-				min-width: 100px;
+				/* width: fit-content; */
+				width: 400px;
 			}
 
 			.top-text h2 {
 				font-size: 1.2rem;
 				/* font-size: 1.5rem; */
+			}
+
+			.mainbox,.mainbox2 {
+				height: 800px;
+			}
+
+			.loading {
+				height: 700px;
 			}
 		}
 
@@ -278,25 +330,22 @@
 		</span>
 
 		<div class="mainbox">
-			<h2 class="main-h2" style="text-align: center; margin-top: 15px;">Generate Notes For Free</h2><br>
+			<div class="mainbox2">
+				<h2 class="main-h2">Hi there.<br>Which topic should we start
+					with?</h2>
 
+				<div id="response" class="loader1">
+					<div class="box">
+						<button class="btn btn1 btn-outline-secondary mt-2" id="copyBtn" onclick="copyResponse()"
+							data-toggle="tooltip" data-placement="right" title="Copy to Clipboard">&#128203;</button>
+					</div>
+				</div>
+			</div>
 			<div class="form-group input-wrapper">
 				<div class="input-with-button">
 					<input class="input2" id="userInput" type="text" placeholder="Enter your question">
 					<button class="button35 input-btn" onclick="sendMessage()">Generate</button>
 				</div>
-			</div>
-			<div id="response" class="loader1">
-				<span class="lo"></span>
-				<span class="dot dot1"></span>
-				<span class="dot dot2"></span>
-				<span class="dot dot3"></span>
-				<span class="dot dot4"></span>
-			</div>
-
-			<div class="box">
-				<button class="btn btn1 btn-outline-secondary mt-2" id="copyBtn" onclick="copyResponse()"
-					data-toggle="tooltip" data-placement="right" title="Copy to Clipboard">&#128203;</button>
 			</div>
 		</div>
 
@@ -308,13 +357,14 @@
 		async function sendMessage() {
 			// const cors = require('cors');
 			const input = document.getElementById('userInput');
-			// let inp = document.querySelector('.input2');
+			let h2 = document.querySelector('.main-h2');
 			const responseDiv = document.getElementById('response');
-			responseDiv.innerHTML = `<span class="lo"></span>
-			<span class="dot dot1"></span>
-			<span class="dot dot2"></span>
-			<span class="dot dot3"></span>
-			<span class="dot dot4"></span>`
+			responseDiv.innerHTML = `<div class="loading">
+				<span class="lo"></span>
+				<span class="dot dot1"></span>
+				<span class="dot dot2"></span>
+				<span class="dot dot3"></span>
+				<span class="dot dot4"></span> <div>`
 			const btn = document.querySelector('.button35');
 			let load = document.querySelector('.lo');
 			let dot1 = document.querySelector('.dot1');
@@ -327,7 +377,7 @@
 				responseDiv.innerHTML = 'Please enter a message.';
 				return;
 			}
-
+			responseDiv.style = 
 			load.innerText = 'Generating';
 			dot1.innerText = '.';
 			dot2.innerText = '.';
@@ -353,7 +403,12 @@
 				const data = await response.json();
 				const markdownText = data.choices?.[0]?.message?.content || 'No response received.';
 				responseDiv.innerHTML = marked.parse(markdownText);
-				input.value = "";
+				if(!h2){
+					input.value = "";
+				}else{
+					input.value = "";
+					h2.remove();
+				}
 			} catch (error) {
 				responseDiv.innerHTML = 'Error: ' + error.message;
 			}
@@ -380,4 +435,5 @@
 		});
 	</script>
 </body>
+
 </html>
