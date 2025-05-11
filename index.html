@@ -259,7 +259,7 @@
 
 			.shadow-snippets {
 				margin: -10px 7.5px 0 7.5px;
-				height: 900px;
+				height: 750px;
 			}
 
 			.loader1 {
@@ -283,12 +283,18 @@
 				/* font-size: 1.5rem; */
 			}
 
-			.mainbox,.mainbox2 {
+			.mainbox,
+			.mainbox2 {
 				height: 800px;
 			}
 
 			.loading {
 				height: 700px;
+			}
+
+			.main-h2 {
+				font-size: 1.3rem;
+				width: fit-content;
 			}
 		}
 
@@ -377,8 +383,8 @@
 				responseDiv.innerHTML = 'Please enter a message.';
 				return;
 			}
-			responseDiv.style = 
-			load.innerText = 'Generating';
+			responseDiv.style =
+				load.innerText = 'Generating';
 			dot1.innerText = '.';
 			dot2.innerText = '.';
 			dot3.innerText = '.';
@@ -403,9 +409,9 @@
 				const data = await response.json();
 				const markdownText = data.choices?.[0]?.message?.content || 'No response received.';
 				responseDiv.innerHTML = marked.parse(markdownText);
-				if(!h2){
+				if (!h2) {
 					input.value = "";
-				}else{
+				} else {
 					input.value = "";
 					h2.remove();
 				}
