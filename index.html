@@ -137,11 +137,12 @@
 
 		.loader1 {
 			color: #3838ff;
-			font-size: 24px;
+			font-size: 20px;
 			font-weight: bold;
-			width: 80%;
-			max-height: 15cm;
-			margin-top: 0px !important;
+			width: 100%;
+			max-width: 740px;
+			height: 75vh;
+			/* background-color: #000000; */
 		}
 
 		.main-h2 {
@@ -151,7 +152,7 @@
 			font-size: 2.5rem;
 			font-family: "Rubik", sans-serif;
 			font-optical-sizing: auto;
-			font-weight: <weight>;
+			font-weight: weight;
 			font-style: normal;
 		}
 
@@ -196,7 +197,7 @@
 		.shadow-snippets {
 			/* justify-content: center; */
 			align-items: center;
-			height: 750px;
+			height: 100vh;
 			display: flex;
 			align-self: center;
 			flex-direction: column;
@@ -255,24 +256,29 @@
 			display: flex;
 			flex-direction: row;
 			align-items: flex-end;
-			height: 550px;
+			height: 650px;
 		}
 
 		@media screen and (max-width: 500px) {
 			.button35 {
-				width: 25%;
-				font-size: 11px;
+				width: 30%;
+				font-size: 12px;
+				right: 10px;
 				border-radius: 25px;
+				padding: 0 10px;
+				height: 45px;
 			}
 
 			.shadow-snippets {
 				margin: -10px 7.5px 0 7.5px;
-				height: 750px;
+				height: 100vh;
 			}
 
 			.loader1 {
 				font-size: small;
-				max-height: 750px;
+				height: 75vh;
+				width: 100%;
+				/* background-color: #1a1a1a; */
 			}
 
 			.input2 {
@@ -296,11 +302,12 @@
 
 			.mainbox,
 			.mainbox2 {
-				height: 800px;
+				height: 100vh;
 			}
 
 			.loading {
-				height: 700px;
+				height: 525px;
+				/* background-color: #b8cddf; */
 			}
 
 			.main-h2 {
@@ -352,12 +359,16 @@
 				<h2 class="main-h2">Hi there. Which topic should we start
 					with?</h2>
 
+
 				<div id="response" class="loader1">
-					<div class="box">
+					<!-- <div class="box">
 						<button class="btn btn1 btn-outline-secondary mt-2" id="copyBtn" onclick="copyResponse()"
 							data-toggle="tooltip" data-placement="right" title="Copy to Clipboard">&#128203;</button>
-					</div>
+					</div> -->
 				</div>
+
+
+
 			</div>
 			<div class="form-group input-wrapper">
 				<div class="input-with-button">
@@ -383,6 +394,7 @@
 				<span class="dot dot2"></span>
 				<span class="dot dot3"></span>
 				<span class="dot dot4"></span> <div>`
+			let loading = document.querySelector('.loading');
 			const btn = document.querySelector('.button35');
 			let load = document.querySelector('.lo');
 			let dot1 = document.querySelector('.dot1');
@@ -394,13 +406,22 @@
 			if (!input.value) {
 				responseDiv.innerHTML = 'Please enter a message.';
 				return;
-			}
-			responseDiv.style =
+			} 
+			if (h2.textContent.trim() === "") {
 				load.innerText = 'Generating';
-			dot1.innerText = '.';
-			dot2.innerText = '.';
-			dot3.innerText = '.';
-			dot4.innerText = '.';
+				dot1.innerText = '.';
+				dot2.innerText = '.';
+				dot3.innerText = '.';
+				dot4.innerText = '.';
+			} else {
+				loading.style.height = "425px";
+				load.innerText = 'Generating';
+				dot1.innerText = '.';
+				dot2.innerText = '.';
+				dot3.innerText = '.';
+				dot4.innerText = '.';
+			}
+
 
 
 			try {
@@ -420,7 +441,11 @@
 
 				const data = await response.json();
 				const markdownText = data.choices?.[0]?.message?.content || 'No response received.';
-				responseDiv.innerHTML = marked.parse(markdownText);
+				responseDiv.innerHTML = marked.parse(markdownText) +
+					`<div class="box">
+					<button class="btn btn1 btn-outline-secondary mt-2" id="copyBtn" onclick="copyResponse()"
+						data-toggle="tooltip" data-placement="right" title="Copy to Clipboard">&#128203;</button>
+				</div><br>`;
 				if (!h2) {
 					input.value = "";
 				} else {
