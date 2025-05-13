@@ -57,7 +57,7 @@
 		}
 
 		.form-group {
-			width: 100%;
+			width: 95%;
 			align-items: center;
 			font-size: 18px;
 			padding: 10px;
@@ -82,7 +82,7 @@
 		}
 
 		.button35 {
-			width: 125px;
+			width: 135px;
 			height: 40px;
 			color: #fff;
 			cursor: pointer;
@@ -108,7 +108,8 @@
 		}
 
 		.input2 {
-			/* width: 75%; */
+			width: 100%;
+			max-width: 750px;
 			font-size: 16px;
 			color: rgb(0, 0, 0);
 			background-color: #f5f5f5;
@@ -214,10 +215,10 @@
 
 		.input-btn {
 			position: absolute;
-			right: 15px;
-			top: 12.5px;
-			height: 45px;
-			border-radius: 20px;
+			right: 10px;
+			top: 7.5px;
+			height: 55px;
+			border-radius: 25px;
 			padding: 0 15px;
 		}
 
@@ -408,7 +409,7 @@
 			if (!input.value) {
 				responseDiv.innerHTML = 'Please enter a message.';
 				return;
-			} 
+			}
 			if (h2.textContent.trim() === "") {
 				load.innerText = 'Generating';
 				dot1.innerText = '.';
@@ -416,7 +417,7 @@
 				dot3.innerText = '.';
 				dot4.innerText = '.';
 			} else {
-				loading.style.height = "425px";
+				loading.style.height = "400px";
 				load.innerText = 'Generating';
 				dot1.innerText = '.';
 				dot2.innerText = '.';
