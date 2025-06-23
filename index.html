@@ -390,7 +390,7 @@
 		async function sendMessage() {
 			// const cors = require('cors');
 			const input = document.getElementById('userInput');
-			let h2 = document.querySelector('.main-h2')|| true;
+			let h2 = document.querySelector('.main-h2');
 			const responseDiv = document.getElementById('response');
 			responseDiv.innerHTML = `<div class="loading">
 				<span class="lo"></span>
@@ -411,7 +411,7 @@
 				responseDiv.innerHTML = 'Please enter a message.';
 				return;
 			}
-			if (h2.textContent.trim() === true) {
+			if (h2 === null) {
 				load.innerText = 'Generating';
 				dot1.innerText = '.';
 				dot2.innerText = '.';
